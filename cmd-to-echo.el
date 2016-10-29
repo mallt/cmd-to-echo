@@ -61,7 +61,8 @@ The output of the command will be shown in the echo area."
                           (process-lines "bash" "-c" "compgen -c"))
          (read-string "Options: ")))
   (apply 'make-comint (concat command options)
-         command nil (split-string options " "))
+         command nil (unless (string= "" options)
+                       (split-string options " ")))
   (let ((proc (get-process (concat command options))))
     (set-process-filter proc 'cmd-to-echo--proc-filter)))
 
