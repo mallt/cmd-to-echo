@@ -58,8 +58,7 @@ The STR will be shown in the echo area."
 The output of the command will be shown in the echo area."
   (interactive
    (list (completing-read "Command to run: "
-                          (split-string (shell-command-to-string "compgen -c")
-                                        "\n"))
+                          (process-lines "bash" "-c" "compgen -c"))
          (read-string "Options: ")))
   (apply 'make-comint (concat command options)
          command nil (split-string options " "))
