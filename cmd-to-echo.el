@@ -57,8 +57,7 @@ The STR will be shown in the echo area."
   "Start the COMMAND with the given OPTIONS.
 The output of the command will be shown in the echo area."
   (interactive
-   (list (completing-read "Command to run: "
-                          (process-lines "bash" "-c" "compgen -c"))
+   (list (read-shell-command "Command to run: ")
          (read-string "Options: ")))
   (apply 'make-comint (concat command options)
          command nil (unless (string= "" options)
