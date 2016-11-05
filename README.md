@@ -7,6 +7,9 @@ Show the output of long-running commands in the emacs echo area.
 <img src="https://raw.github.com/mallt/cmd-to-echo/master/cmd-to-echo.gif" alt="cmd-to-echo screencast"/>
 </p>
 
+## Installation
+cmd-to-echo is available as a MELPA package: <kbd>M-x</kbd> `package-install` <kbd>[RET]</kbd> `cmd-to-echo` <kbd>[RET]</kbd>
+
 ## Usage
 - Call the cmd-to-echo function: <kbd>M-x</kbd> `cmd-to-echo` <kbd>[RET]</kbd>
 - Enter the command to run
