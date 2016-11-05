@@ -32,6 +32,9 @@
 (require 's)
 (require 'ansi-color)
 
+(defvar cmd-to-echo--process-names '()
+  "List of process names started with cmd-to-echo.")
+
 (defun cmd-to-echo--advice-put-text-property (orig-func start end property value object)
   "Make `put-text-property' put the face value instead of the font-lock-face.
 ORIG-FUNC is the `put-text-property' function, START END PROPERTY
@@ -52,6 +55,13 @@ and the echo area does not display that correctly."
 The STR will be shown in the echo area."
   (message "%s" (s-trim (cmd-to-echo--ansi-color-apply str))))
 
+(defun cmd-to-echo-kill-process ()
+  "Select and kill a process started with cmd-to-echo."
+  (interactive)
+  (let ((proc-name (completing-read "Process: " cmd-to-echo--process-names)))
+    (kill-buffer (concat "*" proc-name "*"))
+    (setq cmd-to-echo--process-names (delete proc-name cmd-to-echo--process-names))))
+
 ;;;###autoload
 (defun cmd-to-echo (command options)
   "Start the COMMAND with the given OPTIONS.
@@ -59,11 +69,13 @@ The output of the command will be shown in the echo area."
   (interactive
    (list (read-shell-command "Command to run: ")
          (read-string "Options: ")))
-  (apply 'make-comint (concat command options)
-         command nil (unless (string= "" options)
-                       (split-string options " ")))
-  (let ((proc (get-process (concat command options))))
-    (set-process-filter proc 'cmd-to-echo--proc-filter)))
+  (let ((proc-name (concat command options)))
+    (add-to-list 'cmd-to-echo--process-names proc-name)
+    (apply 'make-comint (concat command options)
+           command nil (unless (string= "" options)
+                         (split-string options " ")))
+    (let ((proc (get-process proc-name)))
+      (set-process-filter proc 'cmd-to-echo--proc-filter))))
 
 (provide 'cmd-to-echo)
 
