@@ -10,6 +10,14 @@ Show the output of long-running commands in the emacs echo area.
 ## Installation
 cmd-to-echo is available as a MELPA package: <kbd>M-x</kbd> `package-install` <kbd>[RET]</kbd> `cmd-to-echo` <kbd>[RET]</kbd>
 
+## Customization
+By default the output of the process will only be shown in the echo area (and can be consulted in the `*Messages*` buffer).
+If you want to add the process output to the process buffers as well, you can set `cmd-to-echo-add-output-to-process-buffers` to non-nil:
+
+```
+(setq cmd-to-echo-add-output-to-process-buffers t)
+```
+
 ## Usage
 - Call the cmd-to-echo function: <kbd>M-x</kbd> `cmd-to-echo` <kbd>[RET]</kbd>
 - Enter the command to run
