@@ -83,11 +83,11 @@ The output of the command will be shown in the echo area."
   (interactive
    (list (read-shell-command "Command to run: ")
          (read-string "Options: ")))
-  (let ((proc-name (concat command options)))
+  (let ((proc-name (concat command " " options)))
     (add-to-list 'cmd-to-echo--process-names proc-name)
-    (apply 'make-comint (concat command options)
-           command nil (unless (string= "" options)
-                         (shell-split-string options)))
+    (apply 'make-comint proc-name command nil
+           (unless (string= "" options)
+             (shell-split-string options)))
     (let ((proc (get-process proc-name)))
       (set-process-filter proc 'cmd-to-echo--proc-filter))))
 
