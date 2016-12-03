@@ -4,7 +4,7 @@
 ;;
 ;; Author: Tijs Mallaerts <tijs.mallaerts@gmail.com>
 
-;; Package-Requires: ((emacs "24.4") (s "1.11.0"))
+;; Package-Requires: ((emacs "24.4") (s "1.11.0") (shell-split-string "20150203.1336"))
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@
 (require 'comint)
 (require 's)
 (require 'ansi-color)
+(require 'shell-split-string)
 
 (defvar cmd-to-echo--process-names '()
   "List of process names started with cmd-to-echo.")
@@ -86,7 +87,7 @@ The output of the command will be shown in the echo area."
     (add-to-list 'cmd-to-echo--process-names proc-name)
     (apply 'make-comint (concat command options)
            command nil (unless (string= "" options)
-                         (split-string options " ")))
+                         (shell-split-string options)))
     (let ((proc (get-process proc-name)))
       (set-process-filter proc 'cmd-to-echo--proc-filter))))
 
